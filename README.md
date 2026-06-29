@@ -31,4 +31,4 @@ A REST API for asset tracking telemetry. It ingests IoT coordinate updates and r
 ---
 
 ## License
-This project is proprietary and confidential. Property of Humanity Co.
+This project is proprietary and confidential. 

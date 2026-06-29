@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "warehouse-platform.name" . }}-api
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "warehouse-platform.name" . }}-api
+  template:
+    metadata:
+      labels:
+        app: {{ include "warehouse-platform.name" . }}-api
+    spec:
+      containers:
+        - name: api
+          image: {{ .Values.api.image }}
+          ports:
+            - containerPort: 8000
+          env:
+            - name: WAREHOUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "warehouse-platform.name" . }}-secrets
+                  key: secret-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "warehouse-platform.name" . }}-api
+spec:
+  selector:
+    app: {{ include "warehouse-platform.name" . }}-api
+  ports:
+    - port: 8000
+      targetPort: 8000
+

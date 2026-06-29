@@ -1,0 +1,10 @@
+
+    WAREHOUSE STANDARD OPERATING PROCEDURES (SOP)
+    
+    1. SAFETY FIRST: All operators must wear high-visibility vests and steel-toed boots.
+    2. INVENTORY: Stock counts must be performed every Friday at 4 PM.
+    3. REORDERING: When SKU-0001 falls below 150 units, trigger a reorder alert.
+    4. ANOMALIES: If conveyor vibration exceeds 0.8 RMS, shut down the line immediately.
+    5. MAINTENANCE: All shuttle robots require a battery check every 24 hours.
+    6. SLOTTING: High-velocity items must be stored in ZONE-A for faster picking.
+    

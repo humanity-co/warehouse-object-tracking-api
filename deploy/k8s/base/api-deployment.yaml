@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warehouse-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: warehouse-api
+  template:
+    metadata:
+      labels:
+        app: warehouse-api
+    spec:
+      containers:
+        - name: api
+          image: warehouse/api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: WAREHOUSE_PROJECT_ROOT
+              value: /app
+            - name: WAREHOUSE_ARTIFACTS_DIR
+              value: /app/artifacts
+            - name: WAREHOUSE_RUNS_DIR
+              value: /app/runs
+            - name: WAREHOUSE_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: warehouse-secrets
+                  key: secret-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-api
+spec:
+  selector:
+    app: warehouse-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+

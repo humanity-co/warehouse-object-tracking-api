@@ -1,0 +1,7 @@
+apiVersion: v2
+name: warehouse-platform
+description: AI-first warehouse intelligence platform
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+

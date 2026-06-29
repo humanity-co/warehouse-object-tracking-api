@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: warehouse-postgres
+spec:
+  serviceName: warehouse-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: warehouse-postgres
+  template:
+    metadata:
+      labels:
+        app: warehouse-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: timescale/timescaledb:latest-pg16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: warehouse
+            - name: POSTGRES_USER
+              value: warehouse
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: warehouse-secrets
+                  key: postgres-password
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: warehouse-postgres
+spec:
+  selector:
+    app: warehouse-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+
